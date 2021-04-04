@@ -114,6 +114,7 @@ int main( int argc, char* argv[] )
 	/* Microenvironment setup */ 
 	
 	setup_microenvironment(); // modify this in the custom code 
+	update_electrical_potential(microenvironment) ;
 	
 	/* PhysiCell setup */ 
  	
