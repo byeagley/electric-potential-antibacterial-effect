@@ -87,7 +87,7 @@
 	</domain>
 	
 	<overall>
-		<max_time units="min">3600</max_time> <!-- 5 days * 24 h * 60 min -->
+		<max_time units="min">720</max_time> <!-- 5 days * 24 h * 60 min -->
 		<time_units>min</time_units>
 		<space_units>micron</space_units>
 	
@@ -124,7 +124,7 @@
 	</options>	
 
 	<microenvironment_setup>
-		<variable name="quorum_factor1" units="dimensionless" ID="0">
+		<variable name="quorum factor 1" units="dimensionless" ID="0">
 			<physical_parameter_set>
 				<diffusion_coefficient units="micron^2/min">70000.0</diffusion_coefficient>
 				<decay_rate units="1/min">0</decay_rate>  
@@ -144,7 +144,7 @@
 -->
  		</variable>
 
-		<variable name="quorum_factor2" units="dimensionless" ID="1">
+		<variable name="quorum factor 2" units="dimensionless" ID="1">
 			<physical_parameter_set>
 				<diffusion_coefficient units="micron^2/min">35000.0</diffusion_coefficient>
 				<decay_rate units="1/min">0</decay_rate>  
@@ -290,14 +290,14 @@
 						<use_2D>true</use_2D>
 						<chemotaxis>
 							<enabled>false</enabled>
-							<substrate>quorum_factor1</substrate>
+							<substrate>quorum factor 1</substrate>
 							<direction>1</direction>
 						</chemotaxis>
 					</options>
 				</motility>
 				
 				<secretion>
-					<substrate name="quorum_factor1">
+					<substrate name="quorum factor 1">
 						<secretion_rate units="1/min">0</secretion_rate>
 						<secretion_target units="substrate density">1</secretion_target>
 						<uptake_rate units="1/min">.05</uptake_rate>
@@ -308,10 +308,10 @@
 				<molecular />
 			</phenotype>
 			<custom_data>  
-				<Hill_coefficientunits="dimensionless">1.0</Hill_coefficient>
-				<PD_half_maxunits="dimensionless">0.5</PD_half_max>
-				<PD_max_apoptosisunits="dimensionless">5.31667e-03</PD_max_apoptosis>
-				<max_mutation_rateunits="1/min">0.001</max_mutation_rate>
+				<Hill_coefficient units="dimensionless">1.0</Hill_coefficient>
+				<PD_half_max units="dimensionless">0.5</PD_half_max>
+				<PD_max_apoptosis units="dimensionless">5.31667e-03</PD_max_apoptosis>
+				<max_mutation_rate units="1/min">0.001</max_mutation_rate>
 			</custom_data>
 		</cell_definition>
 
@@ -427,14 +427,14 @@
 						<use_2D>true</use_2D>
 						<chemotaxis>
 							<enabled>false</enabled>
-							<substrate>quorum_factor2</substrate>
+							<substrate>quorum factor 2</substrate>
 							<direction>1</direction>
 						</chemotaxis>
 					</options>
 				</motility>
 				
 				<secretion>
-					<substrate name="quorum_factor2">
+					<substrate name="quorum factor 2">
 						<secretion_rate units="1/min">0</secretion_rate>
 						<secretion_target units="substrate density">1</secretion_target>
 						<uptake_rate units="1/min">0.10</uptake_rate>
@@ -445,10 +445,10 @@
 				<molecular />
 			</phenotype>
 			<custom_data>  
-				<Hill_coefficientunits="dimensionless">1.0</Hill_coefficient>
-				<PD_half_maxunits="dimensionless">0.5</PD_half_max>
-				<PD_max_apoptosisunits="dimensionless">5.31667e-05</PD_max_apoptosis>
-				<max_mutation_rateunits="1/min">0.000</max_mutation_rate>
+				<Hill_coefficient units="dimensionless">1.0</Hill_coefficient>
+				<PD_half_max units="dimensionless">0.5</PD_half_max>
+				<PD_max_apoptosis units="dimensionless">5.31667e-05</PD_max_apoptosis>
+				<max_mutation_rate units="1/min">0.000</max_mutation_rate>
 			</custom_data>
 		</cell_definition>
 

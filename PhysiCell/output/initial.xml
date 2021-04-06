@@ -11,9 +11,9 @@
 		</software>
 		<citation />
 		<current_time units="min">0.000000</current_time>
-		<current_runtime units="sec">0.020239</current_runtime>
-		<created>2021-04-06T16:26:35Z</created>
-		<last_modified>2021-04-06T16:26:35Z</last_modified>
+		<current_runtime units="sec">0.021793</current_runtime>
+		<created>2021-04-06T18:19:57Z</created>
+		<last_modified>2021-04-06T18:19:57Z</last_modified>
 	</metadata>
 	<microenvironment>
 		<domain name="microenvironment">
@@ -27,11 +27,18 @@
 				</voxels>
 			</mesh>
 			<variables>
-				<variable name="substrate" units="dimensionless" ID="0">
+				<variable name="quorum factor 1" units="dimensionless" ID="0">
 					<physical_parameter_set>
 						<conditions />
-						<diffusion_coefficient units="micron^2/min">100000.000000</diffusion_coefficient>
-						<decay_rate units="1/min">10.000000</decay_rate>
+						<diffusion_coefficient units="micron^2/min">70000.000000</diffusion_coefficient>
+						<decay_rate units="1/min">0.000000</decay_rate>
+					</physical_parameter_set>
+				</variable>
+				<variable name="quorum factor 2" units="dimensionless" ID="1">
+					<physical_parameter_set>
+						<conditions />
+						<diffusion_coefficient units="micron^2/min">35000.000000</diffusion_coefficient>
+						<decay_rate units="1/min">0.000000</decay_rate>
 					</physical_parameter_set>
 				</variable>
 			</variables>
@@ -68,7 +75,10 @@
 							<label index="22" size="3">motility_bias_direction</label>
 							<label index="25" size="1">persistence_time</label>
 							<label index="26" size="1">motility_reserved</label>
-							<label index="27" size="1">sample</label>
+							<label index="27" size="1">Hill_coefficient</label>
+							<label index="28" size="1">PD_half_max</label>
+							<label index="29" size="1">PD_max_apoptosis</label>
+							<label index="30" size="1">max_mutation_rate</label>
 						</labels>
 						<filename>initial_cells_physicell.mat</filename>
 					</simplified_data>
