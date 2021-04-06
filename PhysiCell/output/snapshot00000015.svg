@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with PhysiCell (http://PhysiCell.MathCancer.org/) -->
+<svg 
+ xmlns:dc="http://purl.org/dc/elements/1.1/" 
+ xmlns:cc="http://creativecommons.org/ns#" 
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+ xmlns:svg="http://www.w3.org/2000/svg" 
+ xmlns="http://www.w3.org/2000/svg" 
+ version="1.1" 
+ width="2000" 
+ height="2140" 
+ id="svg2">
+  <rect x="0" y="0" width="2000" height="2140" stroke-width="4" stroke="white" fill="white"/>
+  <text x="25" y="60"
+   font-family="Arial" font-size="50" fill="black" >
+   Current time: 0 days, 15 hours, and 0.00 minutes, z = 0.00 &#956;m
+  </text>
+  <text x="25" y="115"
+   font-family="Arial" font-size="47.5" fill="black" >
+   11 agents
+  </text>
+ <g id="tissue" 
+    transform="translate(0,2140) scale(1,-1)">
+  <g id="ECM">
+  </g>
+  <g id="cells">
+   <g id="cell0">
+  <circle cx="1112" cy="1201.54" r="10.5142" stroke-width="0.5" stroke="black" fill="grey"/>
+  <circle cx="1112" cy="1201.54" r="6.33113" stroke-width="0.5" stroke="grey" fill="grey"/>
+   </g>
+   <g id="cell1">
+  <circle cx="1681.19" cy="1203.52" r="10.3247" stroke-width="0.5" stroke="black" fill="grey"/>
+  <circle cx="1681.19" cy="1203.52" r="6.23971" stroke-width="0.5" stroke="grey" fill="grey"/>
+   </g>
+   <g id="cell2">
+  <circle cx="1151.46" cy="1705.73" r="10.483" stroke-width="0.5" stroke="black" fill="grey"/>
+  <circle cx="1151.46" cy="1705.73" r="6.31703" stroke-width="0.5" stroke="grey" fill="grey"/>
+   </g>
+   <g id="cell3">
+  <circle cx="1256.71" cy="1300.8" r="10.5142" stroke-width="0.5" stroke="black" fill="grey"/>
+  <circle cx="1256.71" cy="1300.8" r="6.33113" stroke-width="0.5" stroke="grey" fill="grey"/>
+   </g>
+   <g id="cell4">
+  <circle cx="866.121" cy="569.413" r="10.5275" stroke-width="0.5" stroke="black" fill="grey"/>
+  <circle cx="866.121" cy="569.413" r="6.33696" stroke-width="0.5" stroke="grey" fill="grey"/>
+   </g>
+   <g id="cell5">
+  <circle cx="115.839" cy="1935.35" r="10.5387" stroke-width="0.5" stroke="black" fill="red"/>
+  <circle cx="115.839" cy="1935.35" r="6.34177" stroke-width="0.5" stroke="red" fill="red"/>
+   </g>
+   <g id="cell6">
+  <circle cx="757.769" cy="925.943" r="9.82189" stroke-width="0.5" stroke="black" fill="red"/>
+  <circle cx="757.769" cy="925.943" r="5.96395" stroke-width="0.5" stroke="red" fill="red"/>
+   </g>
+   <g id="cell7">
+  <circle cx="1603.4" cy="1042.95" r="8.36722" stroke-width="0.5" stroke="black" fill="red"/>
+  <circle cx="1603.4" cy="1042.95" r="5.03458" stroke-width="0.5" stroke="red" fill="red"/>
+   </g>
+   <g id="cell8">
+  <circle cx="1128.34" cy="734.753" r="10.4613" stroke-width="0.5" stroke="black" fill="red"/>
+  <circle cx="1128.34" cy="734.753" r="6.30695" stroke-width="0.5" stroke="red" fill="red"/>
+   </g>
+   <g id="cell9">
+  <circle cx="1700.12" cy="180.169" r="10.3873" stroke-width="0.5" stroke="black" fill="red"/>
+  <circle cx="1700.12" cy="180.169" r="6.2712" stroke-width="0.5" stroke="red" fill="red"/>
+   </g>
+   <g id="cell11">
+  <circle cx="1597.88" cy="1030.65" r="8.36722" stroke-width="0.5" stroke="black" fill="red"/>
+  <circle cx="1597.88" cy="1030.65" r="5.03458" stroke-width="0.5" stroke="red" fill="red"/>
+   </g>
+  </g>
+ </g>
+  <rect x="1750" y="2070" width="200" height="20" stroke-width="4" stroke="rgb(255,255,255)" fill="rgb(0,0,0)"/>
+  <text x="1762.5" y="2057.5"
+   font-family="Arial" font-size="50" fill="black" >
+   200 &#956;m
+  </text>
+  <text x="50" y="2090"
+   font-family="Arial" font-size="37.5" fill="black" >
+   0 days, 0 hours, 0 minutes, and 19.1964 seconds
+  </text>
+  <rect x="0" y="140" width="2000" height="2000" stroke-width="4" stroke="rgb(0,0,0)" fill="none"/>
+</svg>
