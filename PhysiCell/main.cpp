@@ -114,8 +114,8 @@ int main( int argc, char* argv[] )
 	/* Microenvironment setup */ 
 	
 	setup_microenvironment(); // modify this in the custom code 
-	update_electrical_potential(microenvironment) ;
-	
+	update_electrical_potential(microenvironment, "./potential_50um.csv") ;
+	std::cout << "TEST"  << std::endl;
 	/* PhysiCell setup */ 
  	
 	// set mechanics voxel size, and match the data structure to BioFVM
@@ -213,6 +213,7 @@ int main( int argc, char* argv[] )
 				}
 			}
 
+            // PROBLEM IS HERE!!!!
 			// update the microenvironment
 			microenvironment.simulate_diffusion_decay( diffusion_dt );
 			

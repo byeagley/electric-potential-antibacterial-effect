@@ -107,7 +107,7 @@ void create_cell_types( void )
 	
 	cell_defaults.functions.update_phenotype = phenotype_function; 
 	cell_defaults.functions.custom_cell_rule = custom_function; 
-	cell_defaults.functions.contact_function = contact_function; 
+	//cell_defaults.functions.contact_function = contact_function; 
 	
 	/*
 	   This builds the map of cell definitions and summarizes the setup. 
@@ -189,8 +189,49 @@ void phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
 void custom_function( Cell* pCell, Phenotype& phenotype , double dt )
 { return; } 
 
-void contact_function( Cell* pMe, Phenotype& phenoMe , Cell* pOther, Phenotype& phenoOther , double dt )
-{ return; } 
 
-void update_electrical_potential ( BioFVM::Microenvironment& Microenvironment )
-{ return; }
+void update_electrical_potential ( BioFVM::Microenvironment& Microenvironment, std::string filename )
+{ 
+    std::ifstream file( filename, std::ios::in );
+
+	std::string line;
+    int counter = 0;
+    while (std::getline(file, line))
+	{
+		std::vector<double> data;
+		csv_to_vector( line.c_str() , data ); 
+
+        //std::cout << "TEST" << counter << std::endl;
+		std::vector<double> position = { data[0]*1000 , data[1]*1000  , data[2]*1000 };
+
+		double volt = (double) data[3]; 
+        
+        int voxel_ind = microenvironment.nearest_voxel_index ( position );
+        
+        microenvironment(counter)[1] = volt;
+        
+        //std::cout << microenvironment(counter)[1] << std::endl;
+        counter += 1;
+        //std::cout << voxel_ind << std::endl;
+	}
+//	for( int n = 0; n < microenvironment.mesh.voxels.size() ; n++ )
+	//{
+      
+		// csv or mat file input
+      
+
+
+        // std::vector<std::vector> data
+        // data = csv.input() 
+        
+  //      microenvironment(n)[1] = 1.0;
+        
+		//std::cout << microenvironment.mesh.voxels.size() <<std::endl;
+		
+//	}
+    
+
+
+
+    return; 
+}
