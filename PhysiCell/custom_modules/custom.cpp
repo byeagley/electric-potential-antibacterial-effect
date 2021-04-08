@@ -108,6 +108,12 @@ void create_cell_types( void )
 	cell_defaults.functions.update_phenotype = phenotype_function; 
 	cell_defaults.functions.custom_cell_rule = custom_function; 
 	cell_defaults.functions.contact_function = contact_function; 
+
+	Cell_Definition* pPseudomonas= find_cell_definition( "Pseudomonas Aeruginosa" ); 
+	Cell_Definition* pStaphylococcus= find_cell_definition( "Staphylococcus Aureus" ); 
+	
+	cell_defaults.functions.update_phenotype= chemo_phenotype; 
+	cell_defaults.functions.update_phenotype= chemo_phenotype; 
 	
 	/*
 	   This builds the map of cell definitions and summarizes the setup. 
@@ -191,3 +197,49 @@ void custom_function( Cell* pCell, Phenotype& phenotype , double dt )
 
 void contact_function( Cell* pMe, Phenotype& phenoMe , Cell* pOther, Phenotype& phenoOther , double dt )
 { return; } 
+
+
+void chemo_phenotype( Cell* pCell, Phenotype& p , double dt)
+{
+	// sample environment 
+	static int nChemo = microenvironment.find_density_index( "drug" ); 
+	double c = pCell->nearest_density_vector()[nChemo]; 
+
+	// Hill parameters 
+	double hill = pCell->custom_data["Hill_coefficient"];  
+	double c_half_max= pCell->custom_data["PD_half_max"]; 
+	
+	// apoptosis baseline and max 
+	Cell_Definition* pCD = find_cell_definition( pCell->type ); 
+	double base_apop = pCD->phenotype.death.rates[0]; 
+	double max_apop = pCell->custom_data["PD_max_apoptosis"]; 
+	
+	// effect 
+	double temp1 = pow(c,hill); 
+	double temp2 = pow(c_half_max,hill); 
+	double E = temp1 / (temp1+temp2) * 0.5; 
+	
+	// update apoptosis 
+	p.death.rates[0] = base_apop + E*(max_apop-base_apop);
+
+
+	// get pointer to Pseudomonas Aeruginosa
+	static Cell_Definition* pPseudomonas = find_cell_definition( "Pseudomonas Aeruginosa"); 
+
+	// get pointer to Staphylococcus Aureus
+	static Cell_Definition* pStaphylococcus = find_cell_definition( "Staphylococcus Aureus");
+	
+	// compute mutation rate based on effect
+	double mutation_rate = pCell->custom_data["max_mutation_rate"] * E; 
+	
+	// calculate probability of mutation 
+	double prob_mutation = dt * mutation_rate; 
+	if( prob_mutation > 1 )
+	{ prob_mutation= 1.0; } 
+	
+	// evaluate the probability. If it's a hit, change type 
+	if( UniformRandom() <= prob_mutation)
+	{ pCell->convert_to_cell_definition(*pPseudomonas); }
+	
+	return; 
+	}
