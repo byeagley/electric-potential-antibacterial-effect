@@ -105,16 +105,18 @@ void create_cell_types( void )
 	   This is a good place to set custom functions. 
 	*/ 
 	
+	/*
 	cell_defaults.functions.update_phenotype = phenotype_function; 
 	cell_defaults.functions.custom_cell_rule = custom_function; 
 	cell_defaults.functions.contact_function = contact_function; 
 
-	Cell_Definition* pPseudomonas= find_cell_definition( "Pseudomonas Aeruginosa" ); 
+	#Cell_Definition* pPseudomonas= find_cell_definition( "Pseudomonas Aeruginosa" ); 
 	Cell_Definition* pStaphylococcus= find_cell_definition( "Staphylococcus Aureus" ); 
 	
 	cell_defaults.functions.update_phenotype= chemo_phenotype; 
 	cell_defaults.functions.update_phenotype= chemo_phenotype; 
-	
+	*/
+
 	/*
 	   This builds the map of cell definitions and summarizes the setup. 
 	*/
@@ -229,17 +231,17 @@ void chemo_phenotype( Cell* pCell, Phenotype& p , double dt)
 	// get pointer to Staphylococcus Aureus
 	static Cell_Definition* pStaphylococcus = find_cell_definition( "Staphylococcus Aureus");
 	
-	// compute mutation rate based on effect
-	double mutation_rate = pCell->custom_data["max_mutation_rate"] * E; 
+	// compute death rate based on effect
+	double death_rate = pCell->custom_data["max_apoptosis"] * E; 
 	
-	// calculate probability of mutation 
-	double prob_mutation = dt * mutation_rate; 
-	if( prob_mutation > 1 )
-	{ prob_mutation= 1.0; } 
+	// calculate probability of death 
+	double prob_death = dt * death_rate; 
+	if( prob_death > 1 )
+	{ prob_death = 1.0; } 
 	
 	// evaluate the probability. If it's a hit, change type 
-	if( UniformRandom() <= prob_mutation)
-	{ pCell->convert_to_cell_definition(*pPseudomonas); }
+	if( UniformRandom() <= prob_death)
+	{ pCell->die(); }
 	
 	return; 
 	}
