@@ -204,7 +204,7 @@ void contact_function( Cell* pMe, Phenotype& phenoMe , Cell* pOther, Phenotype& 
 void chemo_phenotype( Cell* pCell, Phenotype& p , double dt)
 {
 	// sample environment 
-	static int nChemo = microenvironment.find_density_index( "drug" ); 
+	static int nChemo = microenvironment.find_density_index( "quorum factor 1" ); 
 	double c = pCell->nearest_density_vector()[nChemo]; 
 
 	// Hill parameters 

@@ -10,10 +10,10 @@
 			<user />
 		</software>
 		<citation />
-		<current_time units="min">2520.000000</current_time>
-		<current_runtime units="sec">63.627766</current_runtime>
-		<created>2021-04-08T17:42:48Z</created>
-		<last_modified>2021-04-08T17:42:48Z</last_modified>
+		<current_time units="min">1260.000000</current_time>
+		<current_runtime units="sec">31.210028</current_runtime>
+		<created>2021-04-08T18:10:30Z</created>
+		<last_modified>2021-04-08T18:10:30Z</last_modified>
 	</metadata>
 	<microenvironment>
 		<domain name="microenvironment">
