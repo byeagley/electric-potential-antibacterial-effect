@@ -105,17 +105,17 @@ void create_cell_types( void )
 	   This is a good place to set custom functions. 
 	*/ 
 	
-	/*
+	
 	cell_defaults.functions.update_phenotype = phenotype_function; 
 	cell_defaults.functions.custom_cell_rule = custom_function; 
 	cell_defaults.functions.contact_function = contact_function; 
 
-	#Cell_Definition* pPseudomonas= find_cell_definition( "Pseudomonas Aeruginosa" ); 
+	Cell_Definition* pPseudomonas= find_cell_definition( "Pseudomonas Aeruginosa" ); 
 	Cell_Definition* pStaphylococcus= find_cell_definition( "Staphylococcus Aureus" ); 
 	
 	cell_defaults.functions.update_phenotype= chemo_phenotype; 
 	cell_defaults.functions.update_phenotype= chemo_phenotype; 
-	*/
+	
 
 	/*
 	   This builds the map of cell definitions and summarizes the setup. 
@@ -204,8 +204,10 @@ void contact_function( Cell* pMe, Phenotype& phenoMe , Cell* pOther, Phenotype& 
 void chemo_phenotype( Cell* pCell, Phenotype& p , double dt)
 {
 	// sample environment 
-	static int nChemo = microenvironment.find_density_index( "quorum factor 1" ); 
-	double c = pCell->nearest_density_vector()[nChemo]; 
+	static int nQF1 = microenvironment.find_density_index( "quorum factor 1" ); 
+	double c1 = pCell->nearest_density_vector()[nQF1]; 
+	static int nQF2 = microenvironment.find_density_index( "quorum factor 2" ); 
+	double c2 = pCell->nearest_density_vector()[nQF2]; 
 
 	// Hill parameters 
 	double hill = pCell->custom_data["Hill_coefficient"];  
@@ -217,31 +219,43 @@ void chemo_phenotype( Cell* pCell, Phenotype& p , double dt)
 	double max_apop = pCell->custom_data["PD_max_apoptosis"]; 
 	
 	// effect 
-	double temp1 = pow(c,hill); 
-	double temp2 = pow(c_half_max,hill); 
-	double E = temp1 / (temp1+temp2) * 0.5; 
+	double temp1_1 = pow(c1,hill); 
+	double temp2_1 = pow(c_half_max,hill); 
+	double E1 = temp1_1 / (temp1_1+temp2_1) * 0.5; 
+
+	double temp1_2 = pow(c2,hill); 
+	double temp2_2 = pow(c_half_max,hill); 
+	double E2 = temp1_2 / (temp1_2+temp2_2) * 0.5; 
+
+	static Cell_Definition* pPseudomonas= find_cell_definition( "Pseudomonas Aeruginosa"); 
+	static Cell_Definition* pStaphylococcus = find_cell_definition( "Staphylococcus Aureus"); 
+
 	
-	// update apoptosis 
-	p.death.rates[0] = base_apop + E*(max_apop-base_apop);
+	if(pCell->type_name == "Pseudomonas Aeruginosa")
+	{
+		pCell->phenotype.death.rates[0] = base_apop / (E1);
+		if(pCell->phenotype.death.rates[0] > 0.1)
+		{
+			pCell->phenotype.death.rates[0] = 0.1;
+		}
+
+		pCell->phenotype.secretion.secretion_rates[0] = pCell->phenotype.secretion.secretion_rates[0] * E1;
+	}
+
+	if(pCell->type_name == "Staphylococcus Aureus")
+	{
+		pCell->phenotype.death.rates[0] = base_apop / (E2 / 5);
+		if(pCell->phenotype.death.rates[0] > 0.5)
+		{
+			pCell->phenotype.death.rates[0] = 0.5;
+		}
+
+		pCell->phenotype.secretion.secretion_rates[0] = pCell->phenotype.secretion.secretion_rates[0] * E2;
+	}
 
 
-	// get pointer to Pseudomonas Aeruginosa
-	static Cell_Definition* pPseudomonas = find_cell_definition( "Pseudomonas Aeruginosa"); 
-
-	// get pointer to Staphylococcus Aureus
-	static Cell_Definition* pStaphylococcus = find_cell_definition( "Staphylococcus Aureus");
 	
-	// compute death rate based on effect
-	double death_rate = pCell->custom_data["max_apoptosis"] * E; 
 	
-	// calculate probability of death 
-	double prob_death = dt * death_rate; 
-	if( prob_death > 1 )
-	{ prob_death = 1.0; } 
-	
-	// evaluate the probability. If it's a hit, change type 
-	if( UniformRandom() <= prob_death)
-	{ pCell->die(); }
 	
 	return; 
 	}

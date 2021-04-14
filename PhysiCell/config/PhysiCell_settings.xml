@@ -126,7 +126,7 @@
 	<microenvironment_setup>
 		<variable name="quorum factor 1" units="dimensionless" ID="0">
 			<physical_parameter_set>
-				<diffusion_coefficient units="micron^2/min">70000.0</diffusion_coefficient>
+				<diffusion_coefficient units="micron^2/min">10000.0</diffusion_coefficient>
 				<decay_rate units="1/min">0</decay_rate>  
 			</physical_parameter_set>
 			<initial_condition units="mmHg">1</initial_condition>
@@ -146,7 +146,7 @@
 
 		<variable name="quorum factor 2" units="dimensionless" ID="1">
 			<physical_parameter_set>
-				<diffusion_coefficient units="micron^2/min">35000.0</diffusion_coefficient>
+				<diffusion_coefficient units="micron^2/min">10000.0</diffusion_coefficient>
 				<decay_rate units="1/min">0</decay_rate>  
 			</physical_parameter_set>
 			<initial_condition units="mmHg">1</initial_condition>
@@ -298,9 +298,9 @@
 				
 				<secretion>
 					<substrate name="quorum factor 1">
-						<secretion_rate units="1/min">0</secretion_rate>
+						<secretion_rate units="1/min">0.05</secretion_rate>
 						<secretion_target units="substrate density">1</secretion_target>
-						<uptake_rate units="1/min">.05</uptake_rate>
+						<uptake_rate units="1/min">.2</uptake_rate>
 						<net_export_rate units="total substrate/min">0</net_export_rate> 
 					</substrate> 
 				</secretion>
@@ -310,7 +310,7 @@
 			<custom_data>  
 				<Hill_coefficient units="dimensionless">1.0</Hill_coefficient>
 				<PD_half_max units="dimensionless">0.5</PD_half_max>
-				<PD_max_apoptosis units="dimensionless">5.31667e-03</PD_max_apoptosis>
+				<PD_max_apoptosis units="dimensionless">5.31667e-05</PD_max_apoptosis>
 				<max_mutation_rate units="1/min">0.001</max_mutation_rate>
 			</custom_data>
 		</cell_definition>
@@ -435,7 +435,7 @@
 				
 				<secretion>
 					<substrate name="quorum factor 2">
-						<secretion_rate units="1/min">0</secretion_rate>
+						<secretion_rate units="1/min">0.05</secretion_rate>
 						<secretion_target units="substrate density">1</secretion_target>
 						<uptake_rate units="1/min">0.10</uptake_rate>
 						<net_export_rate units="total substrate/min">0</net_export_rate> 
