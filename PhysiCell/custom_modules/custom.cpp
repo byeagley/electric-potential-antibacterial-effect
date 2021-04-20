@@ -105,10 +105,18 @@ void create_cell_types( void )
 	   This is a good place to set custom functions. 
 	*/ 
 	
+    
 	cell_defaults.functions.update_phenotype = phenotype_function; 
 	cell_defaults.functions.custom_cell_rule = custom_function; 
-	//cell_defaults.functions.contact_function = contact_function; 
+	cell_defaults.functions.contact_function = contact_function; 
 	
+    Cell_Definition* pPseudomonas = find_cell_definition( "Pseudomonas Aeruginosa" ); 
+	Cell_Definition* pStaphylococcus = find_cell_definition( "Staphylococcus Aureus" ); 
+	
+	pPseudomonas->functions.update_phenotype = chemo_phenotype; 
+	pStaphylococcus->functions.update_phenotype = chemo_phenotype; 
+	
+    
 	/*
 	   This builds the map of cell definitions and summarizes the setup. 
 	*/
@@ -189,6 +197,90 @@ void phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
 void custom_function( Cell* pCell, Phenotype& phenotype , double dt )
 { return; } 
 
+void contact_function( Cell* pMe, Phenotype& phenoMe , Cell* pOther, Phenotype& phenoOther , double dt )
+{ return; } 
+
+void chemo_phenotype( Cell* pCell, Phenotype& p , double dt)
+{
+	// sample environment 
+	static int nQF1 = microenvironment.find_density_index( "quorum factor 1" ); 
+	double c1 = pCell->nearest_density_vector()[nQF1]; 
+	static int nQF2 = microenvironment.find_density_index( "quorum factor 2" ); 
+	double c2 = pCell->nearest_density_vector()[nQF2]; 
+    
+	// Hill parameters 
+	double hill = pCell->custom_data["Hill_coefficient"];  
+	double c_half_max = pCell->custom_data["PD_half_max"]; 
+
+    
+	// apoptosis baseline and max 
+	Cell_Definition* pCD = find_cell_definition( pCell->type ); 
+	double base_apop = pCD->phenotype.death.rates[0]; 
+	double max_apop = pCell->custom_data["PD_max_apoptosis"]; 
+	
+	// effect 
+	double temp1_1 = pow(c1,hill); 
+	double temp2_1 = pow(c_half_max,hill); 
+	double E1 = temp1_1 / (temp1_1+temp2_1) * 0.5; 
+
+	double temp1_2 = pow(c2,hill); 
+	double temp2_2 = pow(c_half_max,hill); 
+	double E2 = temp1_2 / (temp1_2+temp2_2) * 0.5; 
+
+	static Cell_Definition* pPseudomonas= find_cell_definition( "Pseudomonas Aeruginosa"); 
+	static Cell_Definition* pStaphylococcus = find_cell_definition( "Staphylococcus Aureus"); 
+
+    // potential
+    static int nPot = microenvironment.find_density_index( "electrical_potential" );
+    double p1 = pCell->nearest_density_vector()[nPot];
+    double pot_thr = pCell->custom_data["potential_threshold"];
+
+
+	if(pCell->type_name == "Pseudomonas Aeruginosa")
+	{
+		pCell->phenotype.death.rates[0] = base_apop / (E1);
+		if(pCell->phenotype.death.rates[0] > 0.1)
+		{
+			pCell->phenotype.death.rates[0] = 0.1;
+		}
+
+		pCell->phenotype.secretion.secretion_rates[1] = pCell->phenotype.secretion.secretion_rates[1] * E1;
+        
+        // secretion rate according to potential
+        if ( p1 > pot_thr * -1)
+        {
+            if ( p1 < pot_thr)
+            {
+               pCell->phenotype.secretion.secretion_rates[1] *= 0.6;
+               //std::cout << "PA sec rate: " << pCell->phenotype.secretion.secretion_rates[1] << std::endl;
+            }
+        }
+	}
+
+	if(pCell->type_name == "Staphylococcus Aureus")
+	{
+		pCell->phenotype.death.rates[0] = base_apop / (E2 / 5);
+		if(pCell->phenotype.death.rates[0] > 0.5)
+		{
+			pCell->phenotype.death.rates[0] = 0.5;
+		}
+
+		pCell->phenotype.secretion.secretion_rates[1] = pCell->phenotype.secretion.secretion_rates[1] * E2; // VERIFY it is changing QF 1 
+        
+        // secretion rate according to potential
+        if ( p1 > pot_thr * -1)
+        {
+            if ( p1 < pot_thr)
+            {
+                pCell->phenotype.secretion.secretion_rates[1] *= 0.6;
+                //std::cout << "SA sec rate: " << pCell->phenotype.secretion.secretion_rates[1] << std::endl;
+            }
+        }
+	}
+
+	
+	return; 
+	}
 
 void update_electrical_potential ( BioFVM::Microenvironment& Microenvironment, std::string filename )
 { 
@@ -208,11 +300,11 @@ void update_electrical_potential ( BioFVM::Microenvironment& Microenvironment, s
         
         int voxel_ind = microenvironment.nearest_voxel_index ( position );
         
-        microenvironment(counter)[1] = volt;
+        microenvironment(voxel_ind)[0] = volt;
         
-        //std::cout << microenvironment(counter)[1] << std::endl;
+        //std::cout << microenvironment(voxel_ind)[1] << std::endl;
         counter += 1;
-        //std::cout << voxel_ind << std::endl;
+        std::cout << counter << std::endl;
 	}
 //	for( int n = 0; n < microenvironment.mesh.voxels.size() ; n++ )
 	//{

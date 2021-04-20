@@ -78,16 +78,16 @@
 		<x_max>1000</x_max>
 		<y_min>-1000</y_min>
 		<y_max>1000</y_max>
-		<z_min>0</z_min>
-		<z_max>700</z_max>
+		<z_min>300</z_min>
+		<z_max>400</z_max>
 		<dx>50.0</dx>
 		<dy>50.0</dy>
 		<dz>50.0</dz>
-		<use_2D>false</use_2D>
+		<use_2D>true</use_2D>
 	</domain>
 	
 	<overall>
-		<max_time units="min">720</max_time> <!-- 5 days * 24 h * 60 min -->
+		<max_time units="min">7200</max_time> <!-- 5 days * 24 h * 60 min -->
 		<time_units>min</time_units>
 		<space_units>micron</space_units>
 	
@@ -315,9 +315,9 @@
 					</substrate>
                     
 					<substrate name="quorum factor 1">
-						<secretion_rate units="1/min">0</secretion_rate>
+						<secretion_rate units="1/min">0.05</secretion_rate>
 						<secretion_target units="substrate density">1</secretion_target>
-						<uptake_rate units="1/min">.05</uptake_rate>
+						<uptake_rate units="1/min">.2</uptake_rate>
 						<net_export_rate units="total substrate/min">0</net_export_rate> 
 					</substrate>
                     
@@ -336,6 +336,7 @@
 				<PD_half_max units="dimensionless">0.5</PD_half_max>
 				<PD_max_apoptosis units="dimensionless">5.31667e-03</PD_max_apoptosis>
 				<max_mutation_rate units="1/min">0.001</max_mutation_rate>
+                <potential_threshold units="volt">0.11</potential_threshold>
 			</custom_data>
 		</cell_definition>
 
@@ -473,7 +474,7 @@
 					</substrate>
                 
 					<substrate name="quorum factor 2">
-						<secretion_rate units="1/min">0</secretion_rate>
+						<secretion_rate units="1/min">0.05</secretion_rate>
 						<secretion_target units="substrate density">1</secretion_target>
 						<uptake_rate units="1/min">0.10</uptake_rate>
 						<net_export_rate units="total substrate/min">0</net_export_rate> 
@@ -487,6 +488,7 @@
 				<PD_half_max units="dimensionless">0.5</PD_half_max>
 				<PD_max_apoptosis units="dimensionless">5.31667e-05</PD_max_apoptosis>
 				<max_mutation_rate units="1/min">0.000</max_mutation_rate>
+                <potential_threshold units="volt">0.11</potential_threshold>
 			</custom_data>
 		</cell_definition>
 
