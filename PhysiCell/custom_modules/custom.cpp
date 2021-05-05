@@ -237,10 +237,10 @@ void chemo_phenotype( Cell* pCell, Phenotype& p , double dt)
     double pot_thr = pCell->custom_data["potential_threshold"];
 
 	double temp1 = pow(abs(p1), 10);
-	double temp2 = pow(0.055,10); 
+	double temp2 = pow(0.035,10); 
 	double E = temp1 / (temp1 + temp2);
 
-	
+	//pCell->phenotype.death.rates[0] /= (1-E);
 
 	if(pCD->name == "Pseudomonas Aeruginosa")
 	{
@@ -254,9 +254,9 @@ void chemo_phenotype( Cell* pCell, Phenotype& p , double dt)
 		//pCell->phenotype.secretion.secretion_rates[2] = base_secretion * (1-E);
 	}
 
-	if(abs(p1) > 0.5 * pot_thr)
+	if(abs(p1) > pot_thr)
 	{
-		pCell->phenotype.death.rates[0] = 0.01;
+		pCell->phenotype.death.rates[0] = 0.1;
 	}
 	
 
