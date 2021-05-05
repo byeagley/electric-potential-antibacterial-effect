@@ -213,19 +213,20 @@ void chemo_phenotype( Cell* pCell, Phenotype& p , double dt)
 	double c_half_max = pCell->custom_data["PD_half_max"]; 
 
     
-	// apoptosis baseline and max 
+	// apoptosis, secretion baseline and max 
 	Cell_Definition* pCD = find_cell_definition( pCell->type ); 
 	double base_apop = pCD->phenotype.death.rates[0]; 
 	double max_apop = pCell->custom_data["PD_max_apoptosis"]; 
+	double base_secretion = pCD->phenotype.secretion.secretion_rates[1];
 	
 	// effect 
 	double temp1_1 = pow(c1,hill); 
 	double temp2_1 = pow(c_half_max,hill); 
-	double E1 = temp1_1 / (temp1_1+temp2_1) * 0.5; 
+	double E1 = temp1_1 / (temp1_1+temp2_1); 
 
 	double temp1_2 = pow(c2,hill); 
 	double temp2_2 = pow(c_half_max,hill); 
-	double E2 = temp1_2 / (temp1_2+temp2_2) * 0.5; 
+	double E2 = temp1_2 / (temp1_2+temp2_2); 
 
 	static Cell_Definition* pPseudomonas= find_cell_definition( "Pseudomonas Aeruginosa"); 
 	static Cell_Definition* pStaphylococcus = find_cell_definition( "Staphylococcus Aureus"); 
@@ -235,50 +236,30 @@ void chemo_phenotype( Cell* pCell, Phenotype& p , double dt)
     double p1 = pCell->nearest_density_vector()[nPot];
     double pot_thr = pCell->custom_data["potential_threshold"];
 
-
-	if(pCell->type_name == "Pseudomonas Aeruginosa")
-	{
-		pCell->phenotype.death.rates[0] = base_apop / (E1);
-		if(pCell->phenotype.death.rates[0] > 0.1)
-		{
-			pCell->phenotype.death.rates[0] = 0.1;
-		}
-
-		pCell->phenotype.secretion.secretion_rates[1] = pCell->phenotype.secretion.secretion_rates[1] * E1;
-        
-        // secretion rate according to potential
-        if ( p1 > pot_thr * -1)
-        {
-            if ( p1 < pot_thr)
-            {
-               pCell->phenotype.secretion.secretion_rates[1] *= 0.6;
-               //std::cout << "PA sec rate: " << pCell->phenotype.secretion.secretion_rates[1] << std::endl;
-            }
-        }
-	}
-
-	if(pCell->type_name == "Staphylococcus Aureus")
-	{
-		pCell->phenotype.death.rates[0] = base_apop / (E2 / 5);
-		if(pCell->phenotype.death.rates[0] > 0.5)
-		{
-			pCell->phenotype.death.rates[0] = 0.5;
-		}
-
-		pCell->phenotype.secretion.secretion_rates[1] = pCell->phenotype.secretion.secretion_rates[1] * E2; // VERIFY it is changing QF 1 
-        
-        // secretion rate according to potential
-        if ( p1 > pot_thr * -1)
-        {
-            if ( p1 < pot_thr)
-            {
-                pCell->phenotype.secretion.secretion_rates[1] *= 0.6;
-                //std::cout << "SA sec rate: " << pCell->phenotype.secretion.secretion_rates[1] << std::endl;
-            }
-        }
-	}
+	double temp1 = pow(abs(p1), 10);
+	double temp2 = pow(0.055,10); 
+	double E = temp1 / (temp1 + temp2);
 
 	
+
+	if(pCD->name == "Pseudomonas Aeruginosa")
+	{
+		pCell->phenotype.death.rates[0] = base_apop / E1;
+		//pCell->phenotype.secretion.secretion_rates[1] = base_secretion * (1-E);
+	}
+
+	if(pCD->name == "Staphylococcus Aureus")
+	{
+		pCell->phenotype.death.rates[0] = base_apop / E2;
+		//pCell->phenotype.secretion.secretion_rates[2] = base_secretion * (1-E);
+	}
+
+	if(abs(p1) > 0.5 * pot_thr)
+	{
+		pCell->phenotype.death.rates[0] = 0.01;
+	}
+	
+
 	return; 
 	}
 
